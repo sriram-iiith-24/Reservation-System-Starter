@@ -1,0 +1,85 @@
+@startuml
+title Chain of Responsibility Pattern - After
+
+abstract class OrderValidationHandler {
+    - next: OrderValidationHandler
+    + setNext(next: OrderValidationHandler): OrderValidationHandler
+    + {abstract} handle(customer: Customer, passengerNames: List<String>, flights: List<ScheduledFlight>): boolean
+    # handleNext(customer: Customer, passengerNames: List<String>, flights: List<ScheduledFlight>): boolean
+}
+
+class CustomerNoFlyHandler {
+    + handle(customer: Customer, passengerNames: List<String>, flights: List<ScheduledFlight>): boolean
+}
+
+class PassengerNoFlyHandler {
+    + handle(customer: Customer, passengerNames: List<String>, flights: List<ScheduledFlight>): boolean
+}
+
+class FlightCapacityHandler {
+    + handle(customer: Customer, passengerNames: List<String>, flights: List<ScheduledFlight>): boolean
+}
+
+class Customer {
+    - name: String
+    - email: String
+    - orders: List<Order>
+    + Customer(name: String, email: String)
+    + createOrder(passengerNames: List<String>, flights: List<ScheduledFlight>, price: double): FlightOrder
+}
+
+class FlightOrder {
+    - flights: List<ScheduledFlight>
+    - {static} noFlyList: List<String>
+    + FlightOrder(flights: List<ScheduledFlight>)
+    + getScheduledFlights(): List<ScheduledFlight>
+    + processOrder(paymentStrategy: PaymentStrategy): boolean
+}
+
+note right of OrderValidationHandler
+  Abstract handler with linked-list chain.
+  setNext() returns next for fluent chaining:
+    chain.setNext(new PassengerNoFlyHandler())
+         .setNext(new FlightCapacityHandler())
+  handleNext() forwards to next or returns true.
+end note
+
+note bottom of CustomerNoFlyHandler
+  Throws IllegalStateException if
+  customer is on the no-fly list.
+  Otherwise delegates to next.
+end note
+
+note bottom of PassengerNoFlyHandler
+  Throws IllegalStateException if
+  any passenger is on the no-fly list.
+  Otherwise delegates to next.
+end note
+
+note bottom of FlightCapacityHandler
+  Throws IllegalStateException if
+  any flight lacks sufficient capacity.
+  NoSuchFieldException eliminated —
+  Aircraft interface guarantees getAvailableCapacity().
+end note
+
+note right of Customer
+  Duplicated isOrderValid() removed.
+  createOrder() builds and runs the chain:
+    chain.handle(this, passengerNames, flights)
+  Single responsibility: Customer owns order creation,
+  handlers own each validation rule.
+end note
+
+OrderValidationHandler <|-- CustomerNoFlyHandler
+OrderValidationHandler <|-- PassengerNoFlyHandler
+OrderValidationHandler <|-- FlightCapacityHandler
+
+OrderValidationHandler --> OrderValidationHandler : next
+
+Customer ..> CustomerNoFlyHandler : builds chain
+Customer ..> PassengerNoFlyHandler : builds chain
+Customer ..> FlightCapacityHandler : builds chain
+Customer --> FlightOrder : creates
+
+@enduml

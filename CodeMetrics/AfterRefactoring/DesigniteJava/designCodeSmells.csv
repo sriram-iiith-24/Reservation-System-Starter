@@ -1,0 +1,36 @@
+Project Name,Package Name,Type Name,Code Smell
+Reservation-System-Starter,flight.reservation,Customer,Cyclic-Dependent Modularization
+Reservation-System-Starter,flight.reservation,ScenarioTest,Unutilized Abstraction
+Reservation-System-Starter,flight.reservation,CustomerTwoPassengersPaypalPayment,Unutilized Abstraction
+Reservation-System-Starter,flight.reservation,NoHelicoptersInFrankfurt,Unutilized Abstraction
+Reservation-System-Starter,flight.reservation,FlightIsPossible,Unutilized Abstraction
+Reservation-System-Starter,flight.reservation,H1FullyBooked,Unutilized Abstraction
+Reservation-System-Starter,flight.reservation,H1Empty,Unutilized Abstraction
+Reservation-System-Starter,flight.reservation,CustomerOnePassengerCreditCardPayment,Unutilized Abstraction
+Reservation-System-Starter,flight.reservation,CreditCardLimitReached,Unutilized Abstraction
+Reservation-System-Starter,flight.reservation,CreditCardNotValid,Unutilized Abstraction
+Reservation-System-Starter,flight.reservation,CreditCardValid,Unutilized Abstraction
+Reservation-System-Starter,flight.reservation,ScheduleTest,Unutilized Abstraction
+Reservation-System-Starter,flight.reservation,GivenAnEmptySchedule,Unutilized Abstraction
+Reservation-System-Starter,flight.reservation,WhenAFlightIsScheduled,Unutilized Abstraction
+Reservation-System-Starter,flight.reservation,GivenAnExistingSchedule,Unutilized Abstraction
+Reservation-System-Starter,flight.reservation,AFlightIsRemoved,Unutilized Abstraction
+Reservation-System-Starter,flight.reservation,AFlightIsScheduled,Unutilized Abstraction
+Reservation-System-Starter,flight.reservation,AFlightIsSearched,Unutilized Abstraction
+Reservation-System-Starter,flight.reservation.order,CustomerNoFlyHandler,Unutilized Abstraction
+Reservation-System-Starter,flight.reservation.order,FlightOrder,Unutilized Abstraction
+Reservation-System-Starter,flight.reservation.order,FlightOrder,Broken Hierarchy
+Reservation-System-Starter,flight.reservation.order,PassengerNoFlyHandler,Unutilized Abstraction
+Reservation-System-Starter,flight.reservation.order,OrderValidationHandler,Cyclic-Dependent Modularization
+Reservation-System-Starter,flight.reservation.order,Order,Unutilized Abstraction
+Reservation-System-Starter,flight.reservation.order,FlightCapacityHandler,Unutilized Abstraction
+Reservation-System-Starter,flight.reservation.payment,PayPalPayment,Unutilized Abstraction
+Reservation-System-Starter,flight.reservation.payment,Paypal,Unnecessary Abstraction
+Reservation-System-Starter,flight.reservation.payment,Paypal,Deficient Encapsulation
+Reservation-System-Starter,flight.reservation.payment,CreditCardPayment,Unutilized Abstraction
+Reservation-System-Starter,flight.reservation.plane,PassengerDroneAdapter,Unutilized Abstraction
+Reservation-System-Starter,flight.reservation.plane,PassengerPlaneAdapter,Unutilized Abstraction
+Reservation-System-Starter,flight.reservation.plane,HelicopterAdapter,Unutilized Abstraction
+Reservation-System-Starter,flight.reservation.flight,ScheduledFlight,Broken Hierarchy
+Reservation-System-Starter,(default package),Runner,Unutilized Abstraction
+Reservation-System-Starter,(default package),MavenWrapperDownloader,Unutilized Abstraction

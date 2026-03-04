@@ -1,0 +1,86 @@
+@startuml
+title Strategy Pattern - After
+
+interface PaymentStrategy {
+    + pay(amount: double): boolean
+}
+
+class CreditCardPayment {
+    - card: CreditCard
+    + CreditCardPayment(number: String, expirationDate: Date, cvv: String)
+    + pay(amount: double): boolean
+}
+
+class PayPalPayment {
+    - email: String
+    - password: String
+    + PayPalPayment(email: String, password: String)
+    + pay(amount: double): boolean
+}
+
+class CreditCard {
+    - amount: double
+    - number: String
+    - date: Date
+    - cvv: String
+    - valid: boolean
+    + CreditCard(number: String, date: Date, cvv: String)
+    + getAmount(): double
+    + setAmount(amount: double)
+    + isValid(): boolean
+}
+
+class Paypal {
+    + {static} DATA_BASE: Map<String, String>
+}
+
+class FlightOrder {
+    - flights: List<ScheduledFlight>
+    - {static} noFlyList: List<String>
+    + FlightOrder(flights: List<ScheduledFlight>)
+    + getScheduledFlights(): List<ScheduledFlight>
+    + processOrder(paymentStrategy: PaymentStrategy): boolean
+}
+
+class Order {
+    - price: double
+    - closed: boolean
+    - customer: Customer
+    - passengers: List<Passenger>
+    + getPrice(): double
+    + setPrice(price: double)
+    + isClosed(): boolean
+    + setClosed()
+}
+
+note right of FlightOrder
+  Payment logic extracted from FlightOrder.
+  processOrder() delegates to strategy.pay().
+  FlightOrder has no knowledge of CreditCard
+  or PayPal implementation details.
+  New payment method = new class only,
+  FlightOrder untouched (OCP satisfied).
+end note
+
+note right of CreditCardPayment
+  Validates card in constructor.
+  Throws IllegalStateException if invalid
+  or credit limit exceeded.
+end note
+
+note right of PayPalPayment
+  Validates credentials against
+  Paypal.DATA_BASE in constructor.
+  Throws IllegalStateException if invalid.
+end note
+
+PaymentStrategy <|.. CreditCardPayment
+PaymentStrategy <|.. PayPalPayment
+
+CreditCardPayment --> CreditCard : uses
+PayPalPayment --> Paypal : uses
+
+FlightOrder --|> Order
+FlightOrder --> PaymentStrategy : uses
+
+@enduml

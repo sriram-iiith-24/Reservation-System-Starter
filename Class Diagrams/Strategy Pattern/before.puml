@@ -1,0 +1,64 @@
+@startuml
+title Strategy Pattern - Before
+
+class FlightOrder {
+    - flights: List<ScheduledFlight>
+    - {static} noFlyList: List<String>
+    + FlightOrder(flights: List<ScheduledFlight>)
+    + getScheduledFlights(): List<ScheduledFlight>
+    + processOrderWithCreditCardDetail(number: String, expirationDate: Date, cvv: String): boolean
+    + processOrderWithCreditCard(creditCard: CreditCard): boolean
+    + processOrderWithPayPal(email: String, password: String): boolean
+    + payWithCreditCard(card: CreditCard, amount: double): boolean
+    + payWithPayPal(email: String, password: String, amount: double): boolean
+    - cardIsPresentAndValid(card: CreditCard): boolean
+    - isOrderValid(customer, passengerNames, flights): boolean
+}
+
+class CreditCard {
+    - amount: double
+    - number: String
+    - date: Date
+    - cvv: String
+    - valid: boolean
+    + CreditCard(number: String, date: Date, cvv: String)
+    + getAmount(): double
+    + setAmount(amount: double)
+    + isValid(): boolean
+}
+
+class Paypal {
+    + {static} DATA_BASE: Map<String, String>
+}
+
+class Order {
+    - price: double
+    - closed: boolean
+    - customer: Customer
+    - passengers: List<Passenger>
+    + getPrice(): double
+    + setPrice(price: double)
+    + isClosed(): boolean
+    + setClosed()
+}
+
+note right of FlightOrder
+  Payment logic embedded directly in FlightOrder.
+  Two separate payment paths (CreditCard, PayPal)
+  each with its own validation and execution logic.
+  Adding a new payment method (e.g. ApplePay)
+  requires modifying FlightOrder and adding more methods.
+  Violates Open/Closed Principle.
+end note
+
+note bottom of Paypal
+  Paypal.DATA_BASE checked inline inside
+  processOrderWithPayPal() — tight coupling
+  to a specific credential store.
+end note
+
+FlightOrder --|> Order
+FlightOrder --> CreditCard : uses
+FlightOrder --> Paypal : uses
+
+@enduml

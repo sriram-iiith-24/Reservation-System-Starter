@@ -1,0 +1,113 @@
+@startuml
+title Adapter Pattern - After
+
+interface Aircraft {
+    + getModel(): String
+    + getPassengerCapacity(): int
+    + getCrewCapacity(): int
+}
+
+class PassengerPlane {
+    - model: String
+    - passengerCapacity: int
+    - crewCapacity: int
+    + PassengerPlane(model: String)
+    + getModel(): String
+    + getPassengerCapacity(): int
+    + getCrewCapacity(): int
+}
+
+class Helicopter {
+    - model: String
+    - passengerCapacity: int
+    + Helicopter(model: String)
+    + getModel(): String
+    + getPassengerCapacity(): int
+    + getCrewCapacity(): int
+}
+
+class PassengerDrone {
+    - model: String
+    - passengerCapacity: int
+    - crewCapacity: int
+    + PassengerDrone(model: String)
+    + getModel(): String
+    + getPassengerCapacity(): int
+    + getCrewCapacity(): int
+}
+
+class PassengerPlaneAdapter {
+    - plane: PassengerPlane
+    + PassengerPlaneAdapter(plane: PassengerPlane)
+    + getModel(): String
+    + getPassengerCapacity(): int
+    + getCrewCapacity(): int
+}
+
+class HelicopterAdapter {
+    - helicopter: Helicopter
+    + HelicopterAdapter(helicopter: Helicopter)
+    + getModel(): String
+    + getPassengerCapacity(): int
+    + getCrewCapacity(): int
+}
+
+class PassengerDroneAdapter {
+    - drone: PassengerDrone
+    + PassengerDroneAdapter(drone: PassengerDrone)
+    + getModel(): String
+    + getPassengerCapacity(): int
+    + getCrewCapacity(): int
+}
+
+class Flight {
+    - number: int
+    - departure: Airport
+    - arrival: Airport
+    # aircraft: Aircraft
+    + Flight(number, departure, arrival, aircraft: Aircraft)
+    + getAircraft(): Aircraft
+    + getNumber(): int
+    + getDeparture(): Airport
+    + getArrival(): Airport
+    - checkValidity()
+    - isAircraftValid(airport: Airport): boolean
+}
+
+class ScheduledFlight {
+    - passengers: List<Passenger>
+    - departureTime: Date
+    - currentPrice: double
+    + getCapacity(): int
+    + getCrewMemberCapacity(): int
+    + getAvailableCapacity(): int
+    + addPassengers(passengers: List<Passenger>)
+    + removePassengers(passengers: List<Passenger>)
+}
+
+note right of Flight
+  aircraft now typed as Aircraft —
+  full compile-time type safety.
+  isAircraftValid() simplified to:
+    String model = aircraft.getModel()
+end note
+
+note bottom of ScheduledFlight
+  All instanceof chains eliminated.
+  getCapacity() → aircraft.getPassengerCapacity()
+  getCrewMemberCapacity() → aircraft.getCrewCapacity()
+  NoSuchFieldException removed entirely.
+end note
+
+Aircraft <|.. PassengerPlaneAdapter
+Aircraft <|.. HelicopterAdapter
+Aircraft <|.. PassengerDroneAdapter
+
+PassengerPlaneAdapter --> PassengerPlane : wraps
+HelicopterAdapter --> Helicopter : wraps
+PassengerDroneAdapter --> PassengerDrone : wraps
+
+Flight <|-- ScheduledFlight
+Flight o-- "1" Aircraft : aircraft
+
+@enduml

@@ -1,0 +1,45 @@
+@startuml
+title Chain of Responsibility Pattern - Before
+
+class Customer {
+    - name: String
+    - email: String
+    - orders: List<Order>
+    + Customer(name: String, email: String)
+    + createOrder(passengerNames: List<String>, flights: List<ScheduledFlight>, price: double): FlightOrder
+    - isOrderValid(passengerNames: List<String>, flights: List<ScheduledFlight>): boolean
+}
+
+class FlightOrder {
+    - flights: List<ScheduledFlight>
+    - {static} noFlyList: List<String>
+    + FlightOrder(flights: List<ScheduledFlight>)
+    + getScheduledFlights(): List<ScheduledFlight>
+    - isOrderValid(customer: Customer, passengerNames: List<String>, flights: List<ScheduledFlight>): boolean
+}
+
+note right of Customer
+  Customer.isOrderValid() checks:
+    1. customer not on noFlyList
+    2. no passenger on noFlyList
+    3. all flights have available capacity
+       (catches NoSuchFieldException internally)
+end note
+
+note right of FlightOrder
+  FlightOrder.isOrderValid() checks:
+    1. customer not on noFlyList
+    2. no passenger on noFlyList
+    3. all flights have available capacity
+       (catches NoSuchFieldException internally)
+
+  Exact same 3-check logic duplicated
+  in both Customer and FlightOrder.
+  Validation responsibility is unclear —
+  who owns it?
+end note
+
+Customer --> FlightOrder : creates
+Customer ..> FlightOrder : reads noFlyList
+
+@enduml

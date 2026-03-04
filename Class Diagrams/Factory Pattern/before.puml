@@ -1,0 +1,61 @@
+@startuml
+title Factory Pattern - Before
+
+class Runner {
+    - airports: List<Airport>
+    - aircrafts: List<Object>
+    - flights: List<Flight>
+    + main(args: String[])
+}
+
+class PassengerPlane {
+    + model: String
+    + passengerCapacity: int
+    + crewCapacity: int
+    + PassengerPlane(model: String)
+}
+
+class Helicopter {
+    - model: String
+    - passengerCapacity: int
+    + Helicopter(model: String)
+    + getModel(): String
+    + getPassengerCapacity(): int
+}
+
+class PassengerDrone {
+    - model: String
+    + PassengerDrone(model: String)
+}
+
+class Flight {
+    - number: int
+    - departure: Airport
+    - arrival: Airport
+    # aircraft: Object
+    + Flight(number, departure, arrival, aircraft: Object)
+    + getAircraft(): Object
+}
+
+note right of Runner
+  aircrafts typed as List<Object>.
+  Creation scattered inline:
+    new PassengerPlane("A380")
+    new PassengerPlane("A350")
+    new Helicopter("H1")
+    new PassengerDrone("HypaHype")
+  Same pattern duplicated in tests.
+  No single place to change or validate models.
+end note
+
+note bottom of PassengerDrone
+  No capacity fields — data hardcoded
+  in ScheduledFlight instanceof chains.
+end note
+
+Runner ..> PassengerPlane : new
+Runner ..> Helicopter : new
+Runner ..> PassengerDrone : new
+Runner --> Flight : creates
+
+@enduml

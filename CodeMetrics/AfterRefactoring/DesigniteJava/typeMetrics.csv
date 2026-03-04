@@ -1,0 +1,46 @@
+Project Name,Package Name,Type Name,NOF,NOPF,NOM,NOPM,LOC,WMC,NC,DIT,LCOM,FANIN,FANOUT
+Reservation-System-Starter,flight.reservation,Airport,5,0,8,8,37,8,0,0,0.25,6,0
+Reservation-System-Starter,flight.reservation,Passenger,1,0,2,2,9,2,0,0,0.0,4,0
+Reservation-System-Starter,flight.reservation,Customer,3,0,8,8,41,8,0,0,0.0,6,2
+Reservation-System-Starter,flight.reservation,ScenarioTest,6,0,15,9,123,16,0,0,0.0,0,10
+Reservation-System-Starter,flight.reservation,CustomerTwoPassengersPaypalPayment,0,0,7,4,58,8,0,0,-1.0,0,5
+Reservation-System-Starter,flight.reservation,NoHelicoptersInFrankfurt,0,0,2,1,9,2,0,0,-1.0,0,1
+Reservation-System-Starter,flight.reservation,FlightIsPossible,0,0,4,2,44,5,0,0,-1.0,0,5
+Reservation-System-Starter,flight.reservation,H1FullyBooked,0,0,2,1,19,3,0,0,-1.0,0,2
+Reservation-System-Starter,flight.reservation,H1Empty,0,0,1,0,16,1,0,0,-1.0,0,2
+Reservation-System-Starter,flight.reservation,CustomerOnePassengerCreditCardPayment,1,0,7,4,54,7,0,0,0.0,0,5
+Reservation-System-Starter,flight.reservation,CreditCardLimitReached,0,0,2,1,12,2,0,0,-1.0,0,2
+Reservation-System-Starter,flight.reservation,CreditCardNotValid,0,0,2,1,11,2,0,0,-1.0,0,2
+Reservation-System-Starter,flight.reservation,CreditCardValid,0,0,2,1,19,2,0,0,-1.0,0,2
+Reservation-System-Starter,flight.reservation,ScheduleTest,5,0,17,1,104,18,0,0,0.0,0,6
+Reservation-System-Starter,flight.reservation,GivenAnEmptySchedule,2,0,9,0,42,9,0,0,0.7777777777777778,0,5
+Reservation-System-Starter,flight.reservation,WhenAFlightIsScheduled,2,0,5,0,27,5,0,0,0.6,0,5
+Reservation-System-Starter,flight.reservation,GivenAnExistingSchedule,2,0,7,0,56,8,0,0,0.2857142857142857,0,2
+Reservation-System-Starter,flight.reservation,AFlightIsRemoved,0,0,2,0,15,2,0,0,-1.0,0,1
+Reservation-System-Starter,flight.reservation,AFlightIsScheduled,0,0,1,0,11,1,0,0,-1.0,0,1
+Reservation-System-Starter,flight.reservation,AFlightIsSearched,0,0,2,0,14,2,0,0,-1.0,0,1
+Reservation-System-Starter,flight.reservation,TestUtil,0,0,1,1,8,1,0,0,-1.0,10,0
+Reservation-System-Starter,flight.reservation.order,CustomerNoFlyHandler,0,0,1,1,8,2,0,1,-1.0,0,2
+Reservation-System-Starter,flight.reservation.order,FlightOrder,2,0,4,4,23,6,0,1,0.75,11,1
+Reservation-System-Starter,flight.reservation.order,PassengerNoFlyHandler,0,0,1,1,8,2,0,1,-1.0,0,2
+Reservation-System-Starter,flight.reservation.order,OrderValidationHandler,1,0,3,2,12,4,3,0,0.0,2,2
+Reservation-System-Starter,flight.reservation.order,Order,5,0,10,10,37,10,1,0,0.5,0,1
+Reservation-System-Starter,flight.reservation.order,FlightCapacityHandler,0,0,1,1,9,2,0,1,-1.0,0,1
+Reservation-System-Starter,flight.reservation.payment,PayPalPayment,2,0,2,2,15,3,0,1,1.0,0,1
+Reservation-System-Starter,flight.reservation.payment,CreditCard,5,0,5,5,29,5,0,0,0.0,3,0
+Reservation-System-Starter,flight.reservation.payment,PaymentStrategy,0,0,1,0,3,1,2,0,-1.0,1,0
+Reservation-System-Starter,flight.reservation.payment,Paypal,1,1,0,0,7,0,0,0,-1.0,1,0
+Reservation-System-Starter,flight.reservation.payment,CreditCardPayment,1,0,2,2,19,4,0,1,0.0,0,1
+Reservation-System-Starter,flight.reservation.plane,PassengerPlane,3,0,4,4,41,8,0,0,0.0,1,0
+Reservation-System-Starter,flight.reservation.plane,PassengerDroneAdapter,1,0,4,4,15,4,0,1,0.0,0,1
+Reservation-System-Starter,flight.reservation.plane,PassengerPlaneAdapter,1,0,4,4,15,4,0,1,0.0,0,1
+Reservation-System-Starter,flight.reservation.plane,Aircraft,0,0,3,0,5,3,3,0,-1.0,2,0
+Reservation-System-Starter,flight.reservation.plane,AircraftFactory,0,0,1,1,18,8,0,0,-1.0,8,0
+Reservation-System-Starter,flight.reservation.plane,HelicopterAdapter,1,0,4,4,15,4,0,1,0.0,0,1
+Reservation-System-Starter,flight.reservation.plane,PassengerDrone,3,0,4,4,22,5,0,0,0.75,1,0
+Reservation-System-Starter,flight.reservation.plane,Helicopter,3,0,4,4,28,6,0,0,0.0,1,0
+Reservation-System-Starter,flight.reservation.flight,Schedule,1,0,7,7,31,9,0,0,0.0,3,2
+Reservation-System-Starter,flight.reservation.flight,ScheduledFlight,3,0,11,11,43,11,0,1,0.18181818181818182,13,2
+Reservation-System-Starter,flight.reservation.flight,Flight,4,0,8,6,37,9,1,0,0.0,7,2
+Reservation-System-Starter,(default package),Runner,4,0,1,1,8,1,0,0,0.0,0,1
+Reservation-System-Starter,(default package),MavenWrapperDownloader,5,0,3,1,84,8,0,0,1.0,0,0

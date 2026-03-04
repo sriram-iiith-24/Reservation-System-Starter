@@ -1,0 +1,80 @@
+@startuml
+title Adapter Pattern - Before
+
+class Flight {
+    - number: int
+    - departure: Airport
+    - arrival: Airport
+    # aircraft: Object
+    + Flight(number, departure, arrival, aircraft: Object)
+    + getAircraft(): Object
+    + getNumber(): int
+    + getDeparture(): Airport
+    + getArrival(): Airport
+    - checkValidity()
+    - isAircraftValid(airport: Airport): boolean
+}
+
+class ScheduledFlight {
+    - passengers: List<Passenger>
+    - departureTime: Date
+    - currentPrice: double
+    + getCapacity(): int <<throws NoSuchFieldException>>
+    + getCrewMemberCapacity(): int <<throws NoSuchFieldException>>
+    + getAvailableCapacity(): int <<throws NoSuchFieldException>>
+    + addPassengers(passengers: List<Passenger>)
+    + removePassengers(passengers: List<Passenger>)
+}
+
+class PassengerPlane {
+    + model: String
+    + passengerCapacity: int
+    + crewCapacity: int
+    + PassengerPlane(model: String)
+}
+
+class Helicopter {
+    - model: String
+    - passengerCapacity: int
+    + Helicopter(model: String)
+    + getModel(): String
+    + getPassengerCapacity(): int
+}
+
+class PassengerDrone {
+    - model: String
+    + PassengerDrone(model: String)
+}
+
+note right of Flight
+  aircraft typed as Object —
+  no compile-time type safety.
+  isAircraftValid() uses instanceof chain:
+    if aircraft instanceof PassengerPlane
+    else if aircraft instanceof Helicopter
+    else if aircraft instanceof PassengerDrone
+end note
+
+note bottom of ScheduledFlight
+  getCapacity() uses instanceof chain:
+    PassengerPlane → plane.passengerCapacity
+    Helicopter     → helicopter.getPassengerCapacity()
+    PassengerDrone → 4 (hardcoded magic number)
+
+  getCrewMemberCapacity() uses instanceof chain:
+    PassengerPlane → plane.crewCapacity
+    Helicopter     → 2 (hardcoded)
+    PassengerDrone → 0 (hardcoded)
+end note
+
+note bottom of PassengerDrone
+  No capacity field at all.
+  Capacity hardcoded outside class.
+end note
+
+Flight <|-- ScheduledFlight
+Flight o-- PassengerPlane : aircraft (Object)
+Flight o-- Helicopter : aircraft (Object)
+Flight o-- PassengerDrone : aircraft (Object)
+
+@enduml

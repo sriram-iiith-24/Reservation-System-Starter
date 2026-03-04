@@ -1,0 +1,105 @@
+@startuml
+title Factory Pattern - After
+
+interface Aircraft {
+    + getModel(): String
+    + getPassengerCapacity(): int
+    + getCrewCapacity(): int
+}
+
+class AircraftFactory {
+    + {static} create(model: String): Aircraft
+}
+
+class PassengerPlaneAdapter {
+    - plane: PassengerPlane
+    + PassengerPlaneAdapter(plane: PassengerPlane)
+    + getModel(): String
+    + getPassengerCapacity(): int
+    + getCrewCapacity(): int
+}
+
+class HelicopterAdapter {
+    - helicopter: Helicopter
+    + HelicopterAdapter(helicopter: Helicopter)
+    + getModel(): String
+    + getPassengerCapacity(): int
+    + getCrewCapacity(): int
+}
+
+class PassengerDroneAdapter {
+    - drone: PassengerDrone
+    + PassengerDroneAdapter(drone: PassengerDrone)
+    + getModel(): String
+    + getPassengerCapacity(): int
+    + getCrewCapacity(): int
+}
+
+class PassengerPlane {
+    - model: String
+    - passengerCapacity: int
+    - crewCapacity: int
+    + PassengerPlane(model: String)
+    + getModel(): String
+    + getPassengerCapacity(): int
+    + getCrewCapacity(): int
+}
+
+class Helicopter {
+    - model: String
+    - passengerCapacity: int
+    + Helicopter(model: String)
+    + getModel(): String
+    + getPassengerCapacity(): int
+}
+
+class PassengerDrone {
+    - model: String
+    - passengerCapacity: int
+    - crewCapacity: int
+    + PassengerDrone(model: String)
+    + getModel(): String
+    + getPassengerCapacity(): int
+    + getCrewCapacity(): int
+}
+
+class Runner {
+    - airports: List<Airport>
+    - aircrafts: List<Aircraft>
+    - flights: List<Flight>
+    + main(args: String[])
+}
+
+note right of AircraftFactory
+  Single creation point for all aircraft.
+  create("A380") → PassengerPlaneAdapter
+  create("H1")   → HelicopterAdapter
+  create("HypaHype") → PassengerDroneAdapter
+  Unknown model → IllegalArgumentException
+  Adding a new model type = one place to change.
+end note
+
+note bottom of Runner
+  aircrafts now typed as List<Aircraft>.
+  AircraftFactory.create(model) used everywhere:
+    Runner, ScheduleTest, ScenarioTest.
+end note
+
+Aircraft <|.. PassengerPlaneAdapter
+Aircraft <|.. HelicopterAdapter
+Aircraft <|.. PassengerDroneAdapter
+
+AircraftFactory ..> PassengerPlaneAdapter : creates
+AircraftFactory ..> HelicopterAdapter : creates
+AircraftFactory ..> PassengerDroneAdapter : creates
+AircraftFactory ..> PassengerPlane : new
+AircraftFactory ..> Helicopter : new
+AircraftFactory ..> PassengerDrone : new
+
+PassengerPlaneAdapter --> PassengerPlane : wraps
+HelicopterAdapter --> Helicopter : wraps
+PassengerDroneAdapter --> PassengerDrone : wraps
+
+Runner ..> AircraftFactory : uses
+
+@enduml
