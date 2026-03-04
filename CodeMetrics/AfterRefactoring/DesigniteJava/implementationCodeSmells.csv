@@ -1,4 +1,5 @@
 Project Name,Package Name,Type Name,Method Name,Code Smell
+Reservation-System-Starter,flight.reservation,Customer,createOrder,Long Statement
 Reservation-System-Starter,flight.reservation,ScenarioTest,thenFlightNotAvailable,Long Statement
 Reservation-System-Starter,flight.reservation,ScenarioTest,initFlights,Magic Number
 Reservation-System-Starter,flight.reservation,ScenarioTest,initPassengers,Magic Number
@@ -119,6 +120,10 @@ Reservation-System-Starter,flight.reservation,AFlightIsScheduled,thenTheSchedule
 Reservation-System-Starter,flight.reservation,AFlightIsScheduled,thenTheScheduleShouldContainTheAddedFlight,Magic Number
 Reservation-System-Starter,flight.reservation,AFlightIsScheduled,thenTheScheduleShouldContainTheAddedFlight,Magic Number
 Reservation-System-Starter,flight.reservation,AFlightIsSearched,thenTheFlightShouldBeReturned,Magic Number
+Reservation-System-Starter,flight.reservation.order,BookingConfirmationObserver,onBookingConfirmed,Long Statement
+Reservation-System-Starter,flight.reservation.order,CapacityMonitorObserver,onBookingConfirmed,Long Statement
+Reservation-System-Starter,flight.reservation.order,CapacityMonitorObserver,onBookingConfirmed,Magic Number
+Reservation-System-Starter,flight.reservation.order,CapacityMonitorObserver,onBookingConfirmed,Magic Number
 Reservation-System-Starter,flight.reservation.payment,PayPalPayment,PayPalPayment,Complex Conditional
 Reservation-System-Starter,flight.reservation.payment,CreditCard,CreditCard,Magic Number
 Reservation-System-Starter,flight.reservation.plane,PassengerPlane,PassengerPlane,Magic Number

@@ -17,9 +17,14 @@ Reservation-System-Starter,flight.reservation,GivenAnExistingSchedule,Unutilized
 Reservation-System-Starter,flight.reservation,AFlightIsRemoved,Unutilized Abstraction
 Reservation-System-Starter,flight.reservation,AFlightIsScheduled,Unutilized Abstraction
 Reservation-System-Starter,flight.reservation,AFlightIsSearched,Unutilized Abstraction
+Reservation-System-Starter,flight.reservation.order,BookingObserver,Cyclic-Dependent Modularization
 Reservation-System-Starter,flight.reservation.order,CustomerNoFlyHandler,Unutilized Abstraction
+Reservation-System-Starter,flight.reservation.order,BookingConfirmationObserver,Unutilized Abstraction
+Reservation-System-Starter,flight.reservation.order,CapacityMonitorObserver,Unutilized Abstraction
 Reservation-System-Starter,flight.reservation.order,FlightOrder,Unutilized Abstraction
 Reservation-System-Starter,flight.reservation.order,FlightOrder,Broken Hierarchy
+Reservation-System-Starter,flight.reservation.order,FlightOrder,Cyclic-Dependent Modularization
+Reservation-System-Starter,flight.reservation.order,FlightOrderBuilder,Unutilized Abstraction
 Reservation-System-Starter,flight.reservation.order,PassengerNoFlyHandler,Unutilized Abstraction
 Reservation-System-Starter,flight.reservation.order,OrderValidationHandler,Cyclic-Dependent Modularization
 Reservation-System-Starter,flight.reservation.order,Order,Unutilized Abstraction

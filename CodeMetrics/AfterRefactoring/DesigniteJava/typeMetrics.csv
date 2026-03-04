@@ -1,13 +1,13 @@
 Project Name,Package Name,Type Name,NOF,NOPF,NOM,NOPM,LOC,WMC,NC,DIT,LCOM,FANIN,FANOUT
 Reservation-System-Starter,flight.reservation,Airport,5,0,8,8,37,8,0,0,0.25,6,0
 Reservation-System-Starter,flight.reservation,Passenger,1,0,2,2,9,2,0,0,0.0,4,0
-Reservation-System-Starter,flight.reservation,Customer,3,0,8,8,41,8,0,0,0.0,6,2
-Reservation-System-Starter,flight.reservation,ScenarioTest,6,0,15,9,123,16,0,0,0.0,0,10
-Reservation-System-Starter,flight.reservation,CustomerTwoPassengersPaypalPayment,0,0,7,4,58,8,0,0,-1.0,0,5
+Reservation-System-Starter,flight.reservation,Customer,3,0,8,8,38,8,0,0,0.0,7,2
+Reservation-System-Starter,flight.reservation,ScenarioTest,6,0,15,9,126,16,0,0,0.0,0,11
+Reservation-System-Starter,flight.reservation,CustomerTwoPassengersPaypalPayment,0,0,7,4,61,8,0,0,-1.0,0,6
 Reservation-System-Starter,flight.reservation,NoHelicoptersInFrankfurt,0,0,2,1,9,2,0,0,-1.0,0,1
-Reservation-System-Starter,flight.reservation,FlightIsPossible,0,0,4,2,44,5,0,0,-1.0,0,5
+Reservation-System-Starter,flight.reservation,FlightIsPossible,0,0,4,2,47,5,0,0,-1.0,0,6
 Reservation-System-Starter,flight.reservation,H1FullyBooked,0,0,2,1,19,3,0,0,-1.0,0,2
-Reservation-System-Starter,flight.reservation,H1Empty,0,0,1,0,16,1,0,0,-1.0,0,2
+Reservation-System-Starter,flight.reservation,H1Empty,0,0,1,0,19,1,0,0,-1.0,0,3
 Reservation-System-Starter,flight.reservation,CustomerOnePassengerCreditCardPayment,1,0,7,4,54,7,0,0,0.0,0,5
 Reservation-System-Starter,flight.reservation,CreditCardLimitReached,0,0,2,1,12,2,0,0,-1.0,0,2
 Reservation-System-Starter,flight.reservation,CreditCardNotValid,0,0,2,1,11,2,0,0,-1.0,0,2
@@ -20,8 +20,12 @@ Reservation-System-Starter,flight.reservation,AFlightIsRemoved,0,0,2,0,15,2,0,0,
 Reservation-System-Starter,flight.reservation,AFlightIsScheduled,0,0,1,0,11,1,0,0,-1.0,0,1
 Reservation-System-Starter,flight.reservation,AFlightIsSearched,0,0,2,0,14,2,0,0,-1.0,0,1
 Reservation-System-Starter,flight.reservation,TestUtil,0,0,1,1,8,1,0,0,-1.0,10,0
+Reservation-System-Starter,flight.reservation.order,BookingObserver,0,0,1,0,3,1,2,0,-1.0,5,1
 Reservation-System-Starter,flight.reservation.order,CustomerNoFlyHandler,0,0,1,1,8,2,0,1,-1.0,0,2
-Reservation-System-Starter,flight.reservation.order,FlightOrder,2,0,4,4,23,6,0,1,0.75,11,1
+Reservation-System-Starter,flight.reservation.order,BookingConfirmationObserver,0,0,1,1,5,1,0,1,-1.0,0,1
+Reservation-System-Starter,flight.reservation.order,CapacityMonitorObserver,0,0,1,1,13,3,0,1,-1.0,0,1
+Reservation-System-Starter,flight.reservation.order,FlightOrder,3,0,6,5,33,9,0,1,0.5,15,2
+Reservation-System-Starter,flight.reservation.order,FlightOrderBuilder,5,0,5,5,43,9,0,0,0.0,0,2
 Reservation-System-Starter,flight.reservation.order,PassengerNoFlyHandler,0,0,1,1,8,2,0,1,-1.0,0,2
 Reservation-System-Starter,flight.reservation.order,OrderValidationHandler,1,0,3,2,12,4,3,0,0.0,2,2
 Reservation-System-Starter,flight.reservation.order,Order,5,0,10,10,37,10,1,0,0.5,0,1
