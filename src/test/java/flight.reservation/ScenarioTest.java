@@ -3,6 +3,7 @@ package flight.reservation;
 import flight.reservation.flight.Flight;
 import flight.reservation.flight.Schedule;
 import flight.reservation.flight.ScheduledFlight;
+import flight.reservation.order.BookingObserver;
 import flight.reservation.order.FlightOrder;
 import flight.reservation.payment.CreditCard;
 import flight.reservation.payment.CreditCardPayment;
@@ -121,9 +122,13 @@ public class ScenarioTest {
                     assertFalse(order.isClosed());
                     assertEquals(order, customer.getOrders().get(0));
 
+                    BookingObserver observer = Mockito.mock(BookingObserver.class);
+                    order.addObserver(observer);
+
                     boolean isProcessed = order.processOrder(new PayPalPayment(customer.getEmail(), "amanda1985"));
                     assertTrue(isProcessed);
                     assertTrue(order.isClosed());
+                    Mockito.verify(observer, Mockito.times(1)).onBookingConfirmed(order);
                 }
             }
         }

@@ -3,12 +3,14 @@ package flight.reservation.order;
 import flight.reservation.flight.ScheduledFlight;
 import flight.reservation.payment.PaymentStrategy;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class FlightOrder extends Order {
     private final List<ScheduledFlight> flights;
     static List<String> noFlyList = Arrays.asList("Peter", "Johannes");
+    private final List<BookingObserver> observers = new ArrayList<>();
 
     public FlightOrder(List<ScheduledFlight> flights) {
         this.flights = flights;
@@ -22,6 +24,16 @@ public class FlightOrder extends Order {
         return flights;
     }
 
+    public void addObserver(BookingObserver observer) {
+        observers.add(observer);
+    }
+
+    private void notifyObservers() {
+        for (BookingObserver observer : observers) {
+            observer.onBookingConfirmed(this);
+        }
+    }
+
     public boolean processOrder(PaymentStrategy paymentStrategy) throws IllegalStateException {
         if (isClosed()) {
             return true;
@@ -29,6 +41,7 @@ public class FlightOrder extends Order {
         boolean isPaid = paymentStrategy.pay(this.getPrice());
         if (isPaid) {
             this.setClosed();
+            notifyObservers();
         }
         return isPaid;
     }

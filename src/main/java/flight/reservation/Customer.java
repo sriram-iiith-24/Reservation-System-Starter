@@ -4,6 +4,7 @@ import flight.reservation.flight.ScheduledFlight;
 import flight.reservation.order.CustomerNoFlyHandler;
 import flight.reservation.order.FlightCapacityHandler;
 import flight.reservation.order.FlightOrder;
+import flight.reservation.order.FlightOrderBuilder;
 import flight.reservation.order.Order;
 import flight.reservation.order.OrderValidationHandler;
 import flight.reservation.order.PassengerNoFlyHandler;
@@ -30,13 +31,15 @@ public class Customer {
              .setNext(new FlightCapacityHandler());
         chain.handle(this, passengerNames, flights);
 
-        FlightOrder order = new FlightOrder(flights);
-        order.setCustomer(this);
-        order.setPrice(price);
         List<Passenger> passengers = passengerNames.stream()
                 .map(Passenger::new)
                 .collect(Collectors.toList());
-        order.setPassengers(passengers);
+        FlightOrder order = new FlightOrderBuilder()
+                .withFlights(flights)
+                .withCustomer(this)
+                .withPrice(price)
+                .withPassengers(passengers)
+                .build();
         order.getScheduledFlights().forEach(sf -> sf.addPassengers(passengers));
         orders.add(order);
         return order;
