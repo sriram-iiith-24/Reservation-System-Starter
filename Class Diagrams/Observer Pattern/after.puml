@@ -1,0 +1,69 @@
+@startuml
+title Observer Pattern - After
+
+interface BookingObserver {
+    + onBookingConfirmed(order: FlightOrder)
+}
+
+class BookingConfirmationObserver {
+    + onBookingConfirmed(order: FlightOrder)
+}
+
+class CapacityMonitorObserver {
+    + onBookingConfirmed(order: FlightOrder)
+}
+
+class FlightOrder {
+    - flights: List<ScheduledFlight>
+    - {static} noFlyList: List<String>
+    - observers: List<BookingObserver>
+    + FlightOrder(flights: List<ScheduledFlight>)
+    + addObserver(observer: BookingObserver)
+    - notifyObservers()
+    + getScheduledFlights(): List<ScheduledFlight>
+    + processOrder(paymentStrategy: PaymentStrategy): boolean
+}
+
+class Order {
+    - id: UUID
+    - price: double
+    - isClosed: boolean
+    - customer: Customer
+    - passengers: List<Passenger>
+    + getPrice(): double
+    + isClosed(): boolean
+    + setClosed()
+}
+
+note right of BookingConfirmationObserver
+  Prints a booking confirmation receipt
+  with customer name, order ID, and
+  amount paid (simulated email/notification).
+end note
+
+note right of CapacityMonitorObserver
+  After booking, checks each scheduled
+  flight's fill rate. Prints a capacity
+  alert if fill rate >= 80%.
+end note
+
+note right of FlightOrder
+  processOrder() calls notifyObservers()
+  after a successful payment:
+    if (isPaid) {
+        this.setClosed();
+        notifyObservers();
+    }
+  FlightOrder has no knowledge of what
+  observers do — fully decoupled.
+  New notification type = new observer class,
+  FlightOrder untouched (OCP satisfied).
+end note
+
+BookingObserver <|.. BookingConfirmationObserver
+BookingObserver <|.. CapacityMonitorObserver
+
+FlightOrder --|> Order
+FlightOrder --> BookingObserver : notifies
+
+@enduml

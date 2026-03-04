@@ -1,0 +1,52 @@
+@startuml
+title Builder Pattern - Before
+
+class Customer {
+    - name: String
+    - email: String
+    - orders: List<Order>
+    + createOrder(passengerNames: List<String>, flights: List<ScheduledFlight>, price: double): FlightOrder
+}
+
+class FlightOrder {
+    - flights: List<ScheduledFlight>
+    - {static} noFlyList: List<String>
+    + FlightOrder(flights: List<ScheduledFlight>)
+    + getScheduledFlights(): List<ScheduledFlight>
+    + processOrder(paymentStrategy: PaymentStrategy): boolean
+}
+
+class Order {
+    - id: UUID
+    - price: double
+    - isClosed: boolean
+    - customer: Customer
+    - passengers: List<Passenger>
+    + setPrice(price: double)
+    + setCustomer(customer: Customer)
+    + setPassengers(passengers: List<Passenger>)
+    + getPrice(): double
+    + isClosed(): boolean
+    + setClosed()
+}
+
+note right of Customer
+  createOrder() constructs FlightOrder
+  through 4 sequential setter calls:
+
+    FlightOrder order = new FlightOrder(flights);
+    order.setCustomer(this);
+    order.setPrice(price);
+    order.setPassengers(passengers);
+
+  Nothing prevents an incomplete FlightOrder
+  from being created — e.g., forgetting
+  setPrice() compiles and runs silently.
+  Public setters on Order expose mutation
+  to any caller at any time.
+end note
+
+FlightOrder --|> Order
+Customer --> FlightOrder : creates
+
+@enduml

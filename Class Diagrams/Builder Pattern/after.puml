@@ -1,0 +1,75 @@
+@startuml
+title Builder Pattern - After
+
+class Customer {
+    - name: String
+    - email: String
+    - orders: List<Order>
+    + createOrder(passengerNames: List<String>, flights: List<ScheduledFlight>, price: double): FlightOrder
+}
+
+class FlightOrderBuilder {
+    - flights: List<ScheduledFlight>
+    - customer: Customer
+    - price: double
+    - priceSet: boolean
+    - passengers: List<Passenger>
+    + withFlights(flights: List<ScheduledFlight>): FlightOrderBuilder
+    + withCustomer(customer: Customer): FlightOrderBuilder
+    + withPrice(price: double): FlightOrderBuilder
+    + withPassengers(passengers: List<Passenger>): FlightOrderBuilder
+    + build(): FlightOrder
+}
+
+class FlightOrder {
+    - flights: List<ScheduledFlight>
+    - {static} noFlyList: List<String>
+    + FlightOrder(flights: List<ScheduledFlight>)
+    + getScheduledFlights(): List<ScheduledFlight>
+    + processOrder(paymentStrategy: PaymentStrategy): boolean
+}
+
+class Order {
+    - id: UUID
+    - price: double
+    - isClosed: boolean
+    - customer: Customer
+    - passengers: List<Passenger>
+    + setPrice(price: double)
+    + setCustomer(customer: Customer)
+    + setPassengers(passengers: List<Passenger>)
+    + getPrice(): double
+    + isClosed(): boolean
+    + setClosed()
+}
+
+note right of FlightOrderBuilder
+  build() validates all mandatory fields
+  before constructing the object:
+    - flights must not be null/empty
+    - customer must not be null
+    - price must be explicitly set
+    - passengers must not be null/empty
+  Throws IllegalStateException if any
+  mandatory field is missing.
+  Fluent API enables readable construction:
+    new FlightOrderBuilder()
+      .withFlights(flights)
+      .withCustomer(this)
+      .withPrice(price)
+      .withPassengers(passengers)
+      .build()
+end note
+
+note right of Customer
+  createOrder() now delegates
+  construction to FlightOrderBuilder.
+  Incomplete FlightOrder impossible —
+  build() enforces all mandatory fields.
+end note
+
+FlightOrder --|> Order
+Customer ..> FlightOrderBuilder : uses
+FlightOrderBuilder ..> FlightOrder : builds
+
+@enduml

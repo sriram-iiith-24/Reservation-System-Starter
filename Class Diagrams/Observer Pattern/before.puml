@@ -1,0 +1,37 @@
+@startuml
+title Observer Pattern - Before
+
+class FlightOrder {
+    - flights: List<ScheduledFlight>
+    - {static} noFlyList: List<String>
+    + FlightOrder(flights: List<ScheduledFlight>)
+    + getScheduledFlights(): List<ScheduledFlight>
+    + processOrder(paymentStrategy: PaymentStrategy): boolean
+}
+
+class Order {
+    - id: UUID
+    - price: double
+    - isClosed: boolean
+    - customer: Customer
+    - passengers: List<Passenger>
+    + getPrice(): double
+    + isClosed(): boolean
+    + setClosed()
+}
+
+note right of FlightOrder
+  processOrder() pays and closes the order.
+  No notification mechanism exists.
+  Any post-payment concerns (confirmation,
+  capacity alerts, audit logs, loyalty points)
+  would have to be added directly inside
+  processOrder() — coupling FlightOrder
+  to every downstream concern.
+  Each new notification type requires
+  modifying FlightOrder.
+end note
+
+FlightOrder --|> Order
+
+@enduml
