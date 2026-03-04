@@ -5,8 +5,9 @@ import flight.reservation.flight.Schedule;
 import flight.reservation.flight.ScheduledFlight;
 import flight.reservation.order.FlightOrder;
 import flight.reservation.payment.CreditCard;
-import flight.reservation.plane.Helicopter;
-import flight.reservation.plane.PassengerPlane;
+import flight.reservation.payment.CreditCardPayment;
+import flight.reservation.payment.PayPalPayment;
+import flight.reservation.plane.AircraftFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -57,7 +58,7 @@ public class ScenarioTest {
             @Test
             @DisplayName("then the flight should not be available")
             void thenFlightNotAvailable() {
-                assertThrows(IllegalArgumentException.class, () -> new Flight(1, startAirport, destinationAirport, new Helicopter("H1")));
+                assertThrows(IllegalArgumentException.class, () -> new Flight(1, startAirport, destinationAirport, AircraftFactory.create("H1")));
             }
 
         }
@@ -70,7 +71,7 @@ public class ScenarioTest {
             public void initFlights() {
                 startAirport = new Airport("John F. Kennedy International Airport", "JFK", "Queens, New York, New York");
                 destinationAirport = new Airport("Frankfurt Airport", "FRA", "Frankfurt, Hesse");
-                flight = new Flight(1, startAirport, destinationAirport, new Helicopter("H1"));
+                flight = new Flight(1, startAirport, destinationAirport, AircraftFactory.create("H1"));
                 Date departure = TestUtil.addDays(Date.from(Instant.now()), 3);
                 schedule.scheduleFlight(flight, departure);
             }
@@ -92,7 +93,7 @@ public class ScenarioTest {
 
                 @Test
                 @DisplayName("then the booking should be stopped and the payment should not proceed and the capacity should be unchanged")
-                void thenTheBookingShouldBeStopped() throws NoSuchFieldException {
+                void thenTheBookingShouldBeStopped() {
                     ScheduledFlight scheduledFlight = schedule.searchScheduledFlight(flight.getNumber());
                     assertThrows(IllegalStateException.class, () -> customer.createOrder(Arrays.asList("Amanda", "Max"), Arrays.asList(scheduledFlight), 180));
                     assertEquals(3, scheduledFlight.getPassengers().size());
@@ -108,7 +109,7 @@ public class ScenarioTest {
             class H1Empty {
                 @Test
                 @DisplayName("then the booking should succeed")
-                void thenTheBookingShouldSucceed() throws NoSuchFieldException {
+                void thenTheBookingShouldSucceed() {
                     ScheduledFlight scheduledFlight = schedule.searchScheduledFlight(flight.getNumber());
                     FlightOrder order = customer.createOrder(Arrays.asList("Amanda", "Max"), Arrays.asList(scheduledFlight), 180);
 
@@ -120,7 +121,7 @@ public class ScenarioTest {
                     assertFalse(order.isClosed());
                     assertEquals(order, customer.getOrders().get(0));
 
-                    boolean isProcessed = order.processOrderWithPayPal(customer.getEmail(), "amanda1985");
+                    boolean isProcessed = order.processOrder(new PayPalPayment(customer.getEmail(), "amanda1985"));
                     assertTrue(isProcessed);
                     assertTrue(order.isClosed());
                 }
@@ -138,7 +139,7 @@ public class ScenarioTest {
             // flights
             startAirport = new Airport("Berlin Airport", "BER", "Berlin, Berlin");
             destinationAirport = new Airport("Frankfurt Airport", "FRA", "Frankfurt, Hesse");
-            flight = new Flight(1, startAirport, destinationAirport, new PassengerPlane("A380"));
+            flight = new Flight(1, startAirport, destinationAirport, AircraftFactory.create("A380"));
             Date departure = TestUtil.addDays(Date.from(Instant.now()), 3);
             schedule.scheduleFlight(flight, departure);
             // customer
@@ -161,7 +162,7 @@ public class ScenarioTest {
             void thenThePaymentAndBookingShouldNotSucceed() {
                 ScheduledFlight scheduledFlight = schedule.searchScheduledFlight(flight.getNumber());
                 FlightOrder order = customer.createOrder(Arrays.asList("Max"), Arrays.asList(scheduledFlight), 100);
-                assertThrows(IllegalStateException.class, () -> order.processOrderWithCreditCard(creditCard));
+                assertThrows(IllegalStateException.class, () -> order.processOrder(new CreditCardPayment(creditCard)));
                 assertFalse(order.isClosed());
             }
         }
@@ -180,7 +181,7 @@ public class ScenarioTest {
             void thenTheBookingShouldNotSucceed() {
                 ScheduledFlight scheduledFlight = schedule.searchScheduledFlight(flight.getNumber());
                 FlightOrder order = customer.createOrder(Arrays.asList("Max"), Arrays.asList(scheduledFlight), 100);
-                assertThrows(IllegalStateException.class, () -> order.processOrderWithCreditCard(creditCard));
+                assertThrows(IllegalStateException.class, () -> order.processOrder(new CreditCardPayment(creditCard)));
                 assertFalse(order.isClosed());
             }
         }
@@ -197,10 +198,10 @@ public class ScenarioTest {
 
             @Test
             @DisplayName("then the booking should succeed")
-            void thenTheBookingShouldSucceed() throws NoSuchFieldException {
+            void thenTheBookingShouldSucceed() {
                 ScheduledFlight scheduledFlight = schedule.searchScheduledFlight(flight.getNumber());
                 FlightOrder order = customer.createOrder(Arrays.asList("Max"), Arrays.asList(scheduledFlight), 100);
-                boolean processed = order.processOrderWithCreditCard(creditCard);
+                boolean processed = order.processOrder(new CreditCardPayment(creditCard));
                 assertTrue(processed);
                 assertTrue(order.isClosed());
                 assertEquals(order, customer.getOrders().get(0));
